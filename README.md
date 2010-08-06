@@ -6,15 +6,14 @@ With this appliance you should be able to start your symfony project in a minute
 Features
 ========
 
- * phing
- * eAccelerator - fast PHP code
+ * phing - project automation and CI build tool
+ * eAccelerator - php cache
  * subversion client - to pull symfony in
  * git-core - have a powerfull "no server needed" SCM tool
- * phpcs
- * phpunit
- * pdepend
- * phpdoc
- * xdebug
+ * phpcs - code sniffer tool for static code analysis
+ * phpunit - THE php test tool (standard in symfony2)
+ * phpdoc - documentation generation tool
+ * xdebug - debubbing extension for php
 
 And additional to this a template project directory wiche enable kick ass fast project creation :D
 See http://github.com/hoschi/tkl-symfony/tree/master/overlay/home/symfony/ for more details on this.
