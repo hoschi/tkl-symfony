@@ -1,0 +1,52 @@
+#!/bin/bash -ex
+# executed after apply-overlay
+
+# source our custom functions
+cwd=$(dirname $0)
+source $cwd/functions
+
+install php-pear subversion php5-xsl php5-dev make bzip2 git-core
+
+useradd -m -s /bin/bash symfony
+# important!!! execute "passwd symfony" to activate user account
+echo "symfony ALL=(ALL) ALL" >> /etc/sudoers
+chown -R symfony:symfony ~/
+
+usermod -aG www-data symfony
+usermod -aG symfony www-data
+chown -R www-data:www-data /var/www
+chmod -R 775 /var/www
+
+pear upgrade-all
+
+pear channel-discover pear.phing.info
+pear install phing/phing
+
+pear channel-discover pear.phpunit.de
+pear channel-discover pear.symfony-project.com
+pear install phpunit/PHPUnit
+
+pear install PHP_CodeSnifer
+pear install PhpDocumentor
+
+pecl install xdebug
+
+# is used my symfony
+a2enmod rewrite
+
+# http://developer.mindtouch.com/en/kb/Improve_PHP_performance_with_eAccelerator_on_Ubuntu_8.04_(Debian)
+cd ~/
+wget http://bart.eaccelerator.net/source/0.9.6.1/eaccelerator-0.9.6.1.tar.bz2 
+tar xvjf eaccelerator-0.9.6.1.tar.bz2
+cd eaccelerator-0.9.6.1
+phpize
+./configure --enable-eaccelerator=shared
+make
+make install
+
+mkdir -p /var/cache/eaccelerator
+chmod 0777 /var/cache/eaccelerator
+/etc/init.d/apache2 restart
+
+
+

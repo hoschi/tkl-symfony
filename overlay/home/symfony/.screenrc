@@ -1,0 +1,15 @@
+# http://zinformatik.de/linux/einige-tipps-und-tricks-fur-screen-teil-2/
+# http://www.debian-administration.org/articles/560
+# http://serverfault.com/questions/3740/what-are-useful-screenrc-settings
+
+vbell off
+startup_message off
+
+# status line
+hardstatus on
+hardstatus alwayslastline
+hardstatus string "%{= kG}[%{G}%H%{g}][%{B}%f%t%{g}][ %{= kw}%?%-Lw%?%{r}%f%t%{w}%?%+Lw%?%= %{g}]"
+
+# bind next/pre window to F7/F8
+bindkey -k k7 prev
+bindkey -k k8 next
