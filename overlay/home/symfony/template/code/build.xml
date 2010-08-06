@@ -1,0 +1,115 @@
+<?xml version="1.0"?>
+	<project name="yourproject" default="build">
+		<property file="build.properties" />
+		<fileset id="src" dir=".">
+			<include name="**/*.php" />
+			<exclude name="apps/frontend/lib/myUser.class.php" />
+			<exclude name="lib/vendor/**" />
+			<exclude name="apps/*/config/**"/>
+			<exclude name="apps/*/templates/**"/>
+			<exclude name="apps/*/modules/*/templates/**"/>
+			<exclude name="cache/**"/>
+			<exclude name="config/**"/>
+			<exclude name="plugins/**"/>
+			<exclude name="web/**"/>
+			<exclude name="data/**"/>
+			<exclude name="**/base/**" />
+			<exclude name="lib/vendor/**" />
+		</fileset>
+
+		<target name="init-static">
+		    <mkdir dir="../build/" />
+		    <mkdir dir="../build/logs" />
+			<mkdir dir="../build/reports" />
+		    <mkdir dir="../build/api" />
+		    <mkdir dir="../build/coverage-unit" />
+		    <mkdir dir="cache" />
+		    <mkdir dir="log" />
+			<chmod mode="0775" failonerror="false">
+				<fileset dir="../build/reports" />
+			</chmod>
+		</target>
+
+		<target name="init">
+			<phingcall target="init-static"/>
+		</target>
+
+		<target name="init-firsttime">
+		    <mkdir dir="cache" />
+		    <mkdir dir="log" />
+			<phingcall target="update-symfony"/>
+			<phingcall target="init"/>
+		</target>
+
+		<target name="clean">
+			<delete failonerror="false" dir="../build" />
+		</target>
+
+		<target name="update-symfony">
+			<available file="./lib/vendor/symfony/" type="dir" property="symfony-installed"/>
+			<if>
+				<equals arg2="true" arg1="${symfony-installed}" />
+				<then>
+					<exec command="svn update lib/vendor/symfony" checkreturn="true" passthru="true" />
+				</then>
+				<else>
+					<exec command="svn co http://svn.symfony-project.com/branches/1.4 lib/vendor/symfony"
+						checkreturn="true" passthru="true" />
+				</else>
+			</if>
+		</target>
+
+		<target name="codesniffer">
+			<property name="format-c" value="${cs-format-c}" override="false" />
+			<property name="format-f" value="${cs-format-f}" override="false" />
+			<property name="outfile" value="${cs-file}" override="false" />
+			<if>
+				<isset property="dir"/>
+				<then>
+						<fileset id="cs" dir="${dir}" />
+				</then>
+				<else>
+					<if>
+						<isset property="file"/>
+						<then>
+							<fileset id="cs" dir="." >
+								<include name="${file}"/>
+							</fileset>
+						</then>
+						<else>
+								<fileset id="cs" refid="src" />
+						</else>
+					</if>
+				</else>
+			</if>
+			<phpcodesniffer
+				standard="config/yourprojectStd"
+				allowedFileExtensions="php">
+				<fileset refid="cs"/>
+				<formatter type="${format-c}" usefile="false"/>
+				<formatter type="${format-f}" outfile="${outfile}"/>
+			</phpcodesniffer>
+		</target> 
+
+		<target name="doc" depends="clean,init-static">
+			<phpdoc
+				title="yourproject doc"
+				destdir="../build/api"
+				output="HTML:frames:DOM/earthli"
+				sourcecode="true"
+				quiet="true"
+				customtags="true">
+				<fileset refid="src"/>
+			</phpdoc>
+		</target>
+
+		<target name="test-unit-php" depends="init">
+			<exec command="phpunit --configuration phpunit-unit.xml --coverage-html ../build/coverage-unit --coverage-clover  ../build/coverage-unit/clover.xml --log-junit ../build/logs/phpunit-unit.xml test/unit/ | tee ../build/logs/test-unit-php.log" passthru="${verbose}">
+			</exec>
+			<xslt todir="../build/reports" style="transform.xsl" >
+				<fileset dir="../build/logs/">
+					<include name="phpunit-unit.xml" />
+				  </fileset>
+			  </xslt>
+		</target>
+</project>

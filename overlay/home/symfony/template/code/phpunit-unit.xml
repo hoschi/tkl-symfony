@@ -1,0 +1,11 @@
+<phpunit>
+  <filter>
+    <whitelist>
+		<directory suffix=".php">lib/model/doctrine</directory>
+		<exclude>
+			<directory suffix=".php">lib/model/doctrine/base</directory>
+			<directory suffix=".php">lib/model/doctrine/sfDoctrineGuardPlugin</directory>
+		</exclude>
+    </whitelist>
+  </filter>
+</phpunit>
