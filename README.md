@@ -17,6 +17,7 @@ Features
  * xdebug
 
 And additional to this a template project directory wiche enable kick ass fast project creation :D
+See http://github.com/hoschi/tkl-symfony/tree/master/overlay/home/symfony/ for more details on this.
 
 How to install
 ==============
