@@ -10,7 +10,7 @@ install php-pear subversion php5-xsl php5-dev make bzip2 git-core
 useradd -m -s /bin/bash symfony
 # important!!! execute "passwd symfony" to activate user account
 echo "symfony ALL=(ALL) ALL" >> /etc/sudoers
-chown -R symfony:symfony ~/
+chown -R symfony:symfony /home/symfony
 
 usermod -aG www-data symfony
 usermod -aG symfony www-data
