@@ -44,7 +44,7 @@ pear install phing/phing
 pear channel-discover pear.phpunit.de
 pear channel-discover pear.symfony-project.com
 pear channel-discover components.ez.no
-pear install PHP_CodeCoverage # is needed by phpunit
+pear install phpunit/PHP_CodeCoverage # is needed by phpunit
 pear install phpunit/PHPUnit
 
 pear install PHP_CodeSniffer
