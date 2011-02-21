@@ -39,8 +39,12 @@ pear upgrade-all
 pear channel-discover pear.phing.info
 pear install phing/phing
 
+# copied from last manual instructions, current is 3.5
+# http://www.phpunit.de/manual/current/en/installation.html
 pear channel-discover pear.phpunit.de
 pear channel-discover pear.symfony-project.com
+pear channel-discover components.ez.no
+pear install PHP_CodeCoverage # is needed by phpunit
 pear install phpunit/PHPUnit
 
 pear install PHP_CodeSniffer
