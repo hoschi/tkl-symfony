@@ -67,3 +67,7 @@ symfony project world writable.
 
 At least you should visit the issue tracker on github -> http://github.com/hoschi/tkl-symfony/issues
 And feel welcome to ask questions or discuss about ideas on the TKL forum -> http://www.turnkeylinux.org/forum/support/20100719/what-do-you-miss-php-developer-current-symfony-appliance
+
+
+[![Bitdeli Badge](https://d2weczhvl823v0.cloudfront.net/hoschi/tkl-symfony/trend.png)](https://bitdeli.com/free "Bitdeli Badge")
+
